@@ -17,8 +17,7 @@ ID = URL.split("v=")[1]
 transcript = YouTubeTranscriptApi.get_transcript(ID)
 #print(transcript)
 
-client = OpenAI(api_key = "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")
-
+client = OpenAI(api_key = "")
 chat_completion = client.chat.completions.create(
     messages=[
         {
