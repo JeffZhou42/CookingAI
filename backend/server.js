@@ -1,22 +1,24 @@
 require('dotenv').config()
 
 const express = require("express")
+const recipeRoutes = require('./routes/recipes')
 
 //creates express app
 const app = express()
 
-//middleware logs path and request
+//middleware 
+app.use(express.json())
+
+//logs path and request
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
 })
 
 //routes
-app.get('/', (req, res) => {
-    res.json({mssg: "welcome to the app"})
-})
+app.use('/api/recipes', recipeRoutes)
 
 //listen for requests
 app.listen(process.env.PORT, () => {
-    console.log("listening on port 3000")
+    console.log("listening on port", process.env.PORT)
 })
