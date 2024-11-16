@@ -1,25 +1,23 @@
 const express = require('express')
+const Recipe = require('../models/recipeModel')
+const {
+    getRecipes,
+    getRecipe,
+    createRecipe,
+    deleteRecipe,
+    updateRecipe
+} = require('../controllers/recipeController')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    res.json({mssg: 'get all recipes'})
-})
+router.get('/', getRecipes)
 
-router.get('/:id', (req, res) => {
-    res.json({mssg: 'get a single recipe'})
-})
+router.get('/:id', getRecipe)
 
-router.post('/', (req, res) => {
-    res.json({mssg: 'post a new recipe'})
-})
+router.post('/',  createRecipe)
 
-router.delete('/:id', (req, res) => {
-    res.json({mssg: 'delete a recipe'})
-})
+router.delete('/:id', deleteRecipe)
 
-router.patch('/:id', (req, res) => {
-    res.json({mssg: 'update a recipe'})
-})
+router.patch('/:id', updateRecipe)
 
 module.exports = router
