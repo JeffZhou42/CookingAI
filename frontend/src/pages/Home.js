@@ -1,10 +1,12 @@
-import { useEffect, useState }from 'react'
+import { useEffect }from 'react'
+import { UseRecipesContext } from '../hooks/UseRecipesContext'
 
 //components
 import RecipeDetails from '../components/RecipeDetails'
+import RecipeForm from '../components/RecipeForm'
 
 const Home = () => {
-    const [recipes, setRecipes] = useState(null)
+    const {recipes, dispatch} = UseRecipesContext()
 
     useEffect(() => {
         const fetchRecipes = async () => {
@@ -12,19 +14,20 @@ const Home = () => {
             const json = await response.json()
 
             if (response.ok) {
-                setRecipes(json)
+                dispatch({type: 'SET_RECIPES', payload: json})
             }
         }
 
         fetchRecipes()
-    }, [])
+    }, [dispatch])
     return (
-        <div className="Home">
+        <div className="home">
             <div className="recipes">
-                {recipes && recipes.map((recipe) => (
-                    <RecipeDetails key={recipe._id} recipe={recipe} />
+                {recipes && recipes.map(recipe => (
+                    <RecipeDetails recipe={recipe} key={recipe._id} />
                 ))}
             </div>
+            <RecipeForm />
         </div>
     )
 }
