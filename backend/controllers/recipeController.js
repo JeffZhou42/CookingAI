@@ -27,6 +27,21 @@ const getRecipe = async (req, res) => {
 const createRecipe = async (req, res) => {
     const {title, author, steps} = req.body
 
+    let emptyFields = []
+
+    if (!title) {
+        emptyFields.push('title')
+    }
+    if (!author) {
+        emptyFields.push('author')
+    }
+    if (!steps) {
+        emptyFields.push('steps')
+    }
+    if (emptyFields.length > 0) {
+        return res.status(400).json({ error: 'Please fill in all the fields', emptyFields })
+    }
+
     //add doc to db
     try {
         const recipe = await Recipe.create({title, author, steps})

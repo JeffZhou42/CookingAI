@@ -8,6 +8,7 @@ const RecipeForm = () => {
     const [steps, setSteps] = useState('')
     const [author, setAuthor] = useState('')
     const [error, setError] = useState(null)
+    const [emptyFields, setEmptyFields] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -25,12 +26,14 @@ const RecipeForm = () => {
 
         if (!response.ok) {
             setError(json.error)
+            setEmptyFields(json.emptyFields)
         } else {
             setTitle('')
             setSteps('')
             setAuthor('')
             setError(null)
             dispatch({type: 'CREATE_RECIPE', payload: json})
+            setEmptyFields([])
         }
     }
 
@@ -42,6 +45,7 @@ const RecipeForm = () => {
                 type="text" 
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
+                className={ emptyFields.includes('title') ? 'error' : ''}
             />
 
         <label>Recipe Author</label>
@@ -49,6 +53,7 @@ const RecipeForm = () => {
                 type="text" 
                 onChange={(e) => setAuthor(e.target.value)}
                 value={author}
+                className={ emptyFields.includes('author') ? 'error' : ''}
             />
 
         <label>Recipe Steps</label>
@@ -56,6 +61,7 @@ const RecipeForm = () => {
                 type="number" 
                 onChange={(e) => setSteps(e.target.value)}
                 value={steps}
+                className={ emptyFields.includes('steps') ? 'error' : ''}
             />
 
         <button>Add Recipe</button>
